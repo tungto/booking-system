@@ -37,7 +37,7 @@ const MainNav = () => {
 				<li>
 					<StyledNavLink to='/dashboard'>
 						<HiHome />
-						<span>Home</span>
+						<span>Dashboard</span>
 					</StyledNavLink>
 				</li>
 				<li>
