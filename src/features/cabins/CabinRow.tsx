@@ -30,7 +30,11 @@ const Menu = styled.div`
 	display: flex;
 `;
 
-const CabinRow = (props: Cabin) => {
+type CabinRowProps = {
+	cabin: Cabin;
+};
+
+const CabinRow = ({ cabin }: CabinRowProps) => {
 	const {
 		id,
 		image,
@@ -39,7 +43,7 @@ const CabinRow = (props: Cabin) => {
 		regularPrice,
 		discount,
 		description,
-	} = props;
+	} = cabin;
 
 	const { isDeleting, deleteCabin } = useDeleteCabin();
 	const { isCreating, createCabin } = useCreateCabin();

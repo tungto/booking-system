@@ -14,6 +14,7 @@ const Cabins = () => {
 			<Row type='vertical'>
 				<CabinTable />
 				<AddCabin />
+				{/* {open && <EditCabinForm />} */}
 			</Row>
 		</>
 	);

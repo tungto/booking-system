@@ -27,6 +27,11 @@ const TableHeader = styled.header`
 	padding: 1.6rem 2.4rem;
 `;
 
+// type CabinTableProps = {
+// 	open: boolean;
+// 	setOpen: (value: boolean) => void;
+// };
+
 const CabinTable = () => {
 	const { isLoading, cabins, error } = useCabins();
 
@@ -45,7 +50,7 @@ const CabinTable = () => {
 				<div></div>
 			</TableHeader>
 			{cabins?.map((item, index) => (
-				<CabinRow key={index} {...item} />
+				<CabinRow key={index} cabin={item} />
 			))}
 		</Table>
 	);
