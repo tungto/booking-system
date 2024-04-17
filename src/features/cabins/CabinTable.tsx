@@ -27,11 +27,6 @@ const TableHeader = styled.header`
 	padding: 1.6rem 2.4rem;
 `;
 
-// type CabinTableProps = {
-// 	open: boolean;
-// 	setOpen: (value: boolean) => void;
-// };
-
 const CabinTable = () => {
 	const { isLoading, cabins, error } = useCabins();
 
