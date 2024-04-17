@@ -3,6 +3,7 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import useEditCabin from './useEditCabin';
 import { Cabin } from '../../types';
+import Button from '../../ui/Button';
 
 export type MutateCabinInputs = {
 	name: string;
@@ -15,9 +16,10 @@ export type MutateCabinInputs = {
 
 type EditCabinFormProps = {
 	cabin?: Cabin;
+	onCloseModal?: () => void;
 };
 
-const EditCabinForm = ({ cabin }: EditCabinFormProps) => {
+const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -28,6 +30,7 @@ const EditCabinForm = ({ cabin }: EditCabinFormProps) => {
 
 	const onSubmit: SubmitHandler<MutateCabinInputs> = (data) => {
 		editCabin({ newCabinData: data, id: cabin?.id || '' });
+		onCloseModal?.();
 	};
 
 	return (
@@ -75,7 +78,9 @@ const EditCabinForm = ({ cabin }: EditCabinFormProps) => {
 				error={errors?.image?.message as string}>
 				<Input type='file' {...register('image')} />
 			</FormRow>
-			<input type='submit' disabled={isEditing} />
+			<Button variation='primary' type='submit' disabled={isEditing}>
+				Create Cabin
+			</Button>
 		</form>
 	);
 };

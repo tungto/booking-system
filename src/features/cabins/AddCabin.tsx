@@ -5,7 +5,7 @@ const AddCabin = () => {
 	return (
 		<Modal>
 			<Modal.Open opens='cabins-form'>Add New Cabin</Modal.Open>
-			<Modal.Window name='cabin-form'>
+			<Modal.Window name='cabins-form'>
 				<EditCabinForm />
 			</Modal.Window>
 		</Modal>
