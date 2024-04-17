@@ -2,6 +2,7 @@
  * getCabins
  */
 
+import { MutateCabinInputs } from '../features/cabins/EditCabinForm';
 import { Cabin } from '../types';
 import supabase from './supabase';
 
@@ -37,7 +38,7 @@ export async function createCabin(cabin: Cabin) {
  * Edit Cabins
  */
 
-export async function editCabin(id: string, cabin: Cabin) {
+export async function editCabin(id: string, cabin: MutateCabinInputs) {
 	const { data, error } = await supabase
 		.from('cabins')
 		.update(cabin)

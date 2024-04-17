@@ -45,7 +45,7 @@ const CabinTable = () => {
 				<div></div>
 			</TableHeader>
 			{cabins?.map((item, index) => (
-				<CabinRow key={index} {...item} />
+				<CabinRow key={index} cabin={item} />
 			))}
 		</Table>
 	);
