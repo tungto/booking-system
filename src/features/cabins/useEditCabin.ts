@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { editCabin as editCabinApi } from '../../services/apiCabins';
-import { MutateCabinInputs } from './EditCabinForm';
+import { MutateCabinInputs } from './CreateEditCabinForm';
 
 type EditInput = {
 	newCabinData: MutateCabinInputs;
