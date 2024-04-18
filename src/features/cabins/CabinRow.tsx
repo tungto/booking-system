@@ -67,7 +67,7 @@ const CabinRow = ({ cabin }: CabinRowProps) => {
 
 	return (
 		<TableRow>
-			<Img src={image} alt={name} />
+			<Img src={image as string} alt={name} />
 			<CabinName>{name}</CabinName>
 			<span>{maxCapacity}</span>
 			<span>{regularPrice}</span>
