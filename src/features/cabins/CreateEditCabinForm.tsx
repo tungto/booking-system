@@ -4,6 +4,8 @@ import Input from '../../ui/Input';
 import useEditCabin from './useEditCabin';
 import { Cabin } from '../../types';
 import Button from '../../ui/Button';
+import useCreateCabin from './useCreateCabin';
+import FileInput from '../../ui/FileInput';
 
 export type MutateCabinInputs = {
 	name: string;
@@ -11,7 +13,7 @@ export type MutateCabinInputs = {
 	regularPrice: number;
 	discount: number;
 	description: string;
-	image: string;
+	image: string | [File];
 };
 
 type EditCabinFormProps = {
@@ -20,16 +22,25 @@ type EditCabinFormProps = {
 };
 
 const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
+	console.log(cabin);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<MutateCabinInputs>();
+	} = useForm<MutateCabinInputs>({
+		defaultValues: cabin ? cabin : {},
+	});
 
 	const { editCabin, isEditing } = useEditCabin();
+	const { createCabin, isCreating } = useCreateCabin();
 
 	const onSubmit: SubmitHandler<MutateCabinInputs> = (data) => {
-		editCabin({ newCabinData: data, id: cabin?.id || '' });
+		if (cabin?.id) {
+			editCabin({ newCabinData: data, id: cabin.id });
+		} else {
+			createCabin(data);
+		}
+
 		onCloseModal?.();
 	};
 
@@ -76,10 +87,17 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 			<FormRow
 				label='Cabin Photo'
 				error={errors?.image?.message as string}>
-				<Input type='file' {...register('image')} />
+				<FileInput
+					type='file'
+					accept='image/*'
+					{...register('image')}
+				/>
 			</FormRow>
-			<Button variation='primary' type='submit' disabled={isEditing}>
-				Create Cabin
+			<Button
+				variation='primary'
+				type='submit'
+				disabled={isCreating || isEditing}>
+				{cabin?.id ? 'Update Cabin' : 'Create Cabin'}
 			</Button>
 		</form>
 	);

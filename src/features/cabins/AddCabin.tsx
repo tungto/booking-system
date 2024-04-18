@@ -1,5 +1,5 @@
 import Modal from '../../ui/Modal';
-import EditCabinForm from './EditCabinForm';
+import EditCabinForm from './CreateEditCabinForm';
 
 const AddCabin = () => {
 	return (
