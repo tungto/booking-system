@@ -3,7 +3,7 @@
  */
 
 import { MutateCabinInputs } from '../features/cabins/CreateEditCabinForm';
-import { Cabin } from '../types';
+import { Cabin } from '../features/cabins/type';
 import supabase, { supabaseUrl } from './supabase';
 
 export const getCabins = async (): Promise<Cabin[]> => {

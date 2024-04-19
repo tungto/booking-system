@@ -2,10 +2,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import useEditCabin from './useEditCabin';
-import { Cabin } from '../../types';
 import Button from '../../ui/Button';
 import useCreateCabin from './useCreateCabin';
 import FileInput from '../../ui/FileInput';
+import { Cabin } from './type';
 
 export type MutateCabinInputs = {
 	name: string;
