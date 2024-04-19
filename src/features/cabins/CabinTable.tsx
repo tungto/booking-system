@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import useCabins from './useCabins';
 import Spinner from '../../ui/Spinner';
 import CabinRow from './CabinRow';
+import { useSearchParams } from 'react-router-dom';
+import { CabinField, CabinFilterOptions } from './type';
 
 const Table = styled.div`
 	border: 1px solid var(--color-grey-200);
@@ -29,6 +31,34 @@ const TableHeader = styled.header`
 
 const CabinTable = () => {
 	const { isLoading, cabins, error } = useCabins();
+	const [searchParams] = useSearchParams();
+
+	//1. FILTER
+	const filteredBy = searchParams.get('discount') || 'all';
+	let filteredCabins = cabins!;
+
+	if (filteredBy === CabinFilterOptions.withDiscount) {
+		filteredCabins = filteredCabins.filter((cabin) => cabin.discount > 0);
+	}
+
+	if (filteredBy === CabinFilterOptions.noDiscount) {
+		filteredCabins = filteredCabins.filter((cabin) => cabin.discount === 0);
+	}
+
+	//2. SORT
+	const sortBy = searchParams.get('sortBy') || '';
+	const [field, direction] = sortBy.split('-') as [CabinField, string];
+	const modifier = direction === 'asc' ? 1 : -1;
+
+	const sortedCabins = filteredCabins?.sort(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(a: any, b: any) => {
+			if (typeof a[field] === 'string') {
+				return a[field].localeCompare(b[field]) * modifier;
+			}
+			return (a[field] - b[field]) * modifier;
+		}
+	);
 
 	if (isLoading) return <Spinner />;
 
@@ -44,7 +74,7 @@ const CabinTable = () => {
 				<div>Discount</div>
 				<div></div>
 			</TableHeader>
-			{cabins?.map((item, index) => (
+			{sortedCabins?.map((item, index) => (
 				<CabinRow key={index} cabin={item} />
 			))}
 		</Table>

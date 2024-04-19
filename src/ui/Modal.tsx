@@ -54,14 +54,14 @@ const Modal = ({ children }: ModalProps) => {
 };
 
 type OpenProps = {
-	children: React.ReactNode;
+	children: React.ReactElement;
 	opens: string;
 };
 
-const Open = ({ children, opens: openWindowName }: OpenProps) => {
+const Open = ({ children, opens: opensWindowName }: OpenProps) => {
 	const { open } = useContext(ModalContext);
 
-	return <button onClick={() => open?.(openWindowName)}>{children}</button>;
+	return cloneElement(children, { onClick: () => open?.(opensWindowName) });
 };
 
 type WindowProps = {

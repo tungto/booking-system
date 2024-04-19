@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { Cabin } from '../../types';
 import useCreateCabin from './useCreateCabin';
 import useDeleteCabin from './useDeleteCabin';
 import Modal from '../../ui/Modal';
 import EditCabinForm from './CreateEditCabinForm';
+import Button from '../../ui/Button';
+import { Cabin } from './type';
 
 const TableRow = styled.div`
 	display: grid;
@@ -74,7 +75,9 @@ const CabinRow = ({ cabin }: CabinRowProps) => {
 			<span>{discount}</span>
 			<Menu>
 				<Modal>
-					<Modal.Open opens='edit-cabin'>Edit</Modal.Open>
+					<Modal.Open opens='edit-cabin'>
+						<Button>Edit</Button>
+					</Modal.Open>
 					<Modal.Window name='edit-cabin'>
 						<EditCabinForm cabin={cabin} />
 					</Modal.Window>
