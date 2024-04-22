@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 type FilterButtonProps = {
-	active: boolean;
+	active: string;
 };
 
 const StyledFilterComponent = styled.div`
@@ -58,7 +58,7 @@ const Filter = ({ options, filterField }: FilterProps) => {
 					key={opt.value}
 					onClick={() => handleSelectFilter(opt.value)}
 					disabled={opt.value === currentFilter}
-					active={opt.value === currentFilter}>
+					active={opt.value === currentFilter ? 'active' : ''}>
 					{opt.label}
 				</FilterButton>
 			))}

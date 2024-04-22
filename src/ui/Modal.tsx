@@ -28,6 +28,11 @@ const Overlay = styled.div`
 	transition: all 0.5s;
 `;
 
+const Button = styled.button`
+	position: absolute;
+	right: 2rem;
+`;
+
 type ModalProps = { children: React.ReactNode };
 
 type ModalContextType = {
@@ -75,14 +80,12 @@ function Window({ children, name }: WindowProps) {
 
 	if (name !== openName) return null;
 
-	console.log(ref, name, openName);
-
 	return createPortal(
 		<Overlay>
 			<StyledModal ref={ref}>
-				<button onClick={close}>
+				<Button onClick={close}>
 					<HiXMark />
-				</button>
+				</Button>
 
 				<div>
 					{cloneElement(children, {

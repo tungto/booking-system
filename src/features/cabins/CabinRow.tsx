@@ -5,13 +5,8 @@ import Modal from '../../ui/Modal';
 import EditCabinForm from './CreateEditCabinForm';
 import Button from '../../ui/Button';
 import { Cabin } from './type';
-
-const TableRow = styled.div`
-	display: grid;
-	grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-	column-gap: 2.4rem;
-	align-items: center;
-`;
+import ConfirmDelete from '../../ui/ConfirmDelete';
+import Table from '../../ui/Table';
 
 const Img = styled.img`
 	display: block;
@@ -51,10 +46,6 @@ const CabinRow = ({ cabin }: CabinRowProps) => {
 	const { isDeleting, deleteCabin } = useDeleteCabin();
 	const { isCreating, createCabin } = useCreateCabin();
 
-	function handDeleteCabin() {
-		deleteCabin(id!);
-	}
-
 	function handCreateCabin() {
 		createCabin({
 			image,
@@ -67,30 +58,42 @@ const CabinRow = ({ cabin }: CabinRowProps) => {
 	}
 
 	return (
-		<TableRow>
+		<Table.Row>
 			<Img src={image as string} alt={name} />
 			<CabinName>{name}</CabinName>
-			<span>{maxCapacity}</span>
-			<span>{regularPrice}</span>
-			<span>{discount}</span>
+			<span>Fits up to {maxCapacity} guests</span>
+			<span>${regularPrice}</span>
+			<span>{discount > 0 ? `$${discount}` : '_'}</span>
 			<Menu>
 				<Modal>
-					<Modal.Open opens='edit-cabin'>
+					<Modal.Open opens='edit'>
 						<Button>Edit</Button>
 					</Modal.Open>
-					<Modal.Window name='edit-cabin'>
+					<Modal.Open opens='delete'>
+						<button>Delete</button>
+					</Modal.Open>
+
+					<Modal.Window name='edit'>
 						<EditCabinForm cabin={cabin} />
+					</Modal.Window>
+
+					{/* After cabin deleted => the CabinRow deleted => Modal inside deleted */}
+					<Modal.Window name='delete'>
+						<ConfirmDelete
+							resourceName={cabin.name}
+							disabled={isDeleting}
+							onConfirm={() => deleteCabin(id!)}
+						/>
 					</Modal.Window>
 				</Modal>
 
-				<button onClick={handDeleteCabin} disabled={isDeleting}>
-					Delete
-				</button>
-				<button onClick={handCreateCabin} disabled={isCreating}>
-					Duplicate
-				</button>
+				<div>
+					<button onClick={handCreateCabin} disabled={isCreating}>
+						Duplicate
+					</button>
+				</div>
 			</Menu>
-		</TableRow>
+		</Table.Row>
 	);
 };
 
