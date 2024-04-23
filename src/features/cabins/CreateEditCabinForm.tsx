@@ -6,6 +6,7 @@ import Button from '../../ui/Button';
 import useCreateCabin from './useCreateCabin';
 import FileInput from '../../ui/FileInput';
 import { Cabin } from './type';
+import Textarea from '@/ui/Textarea';
 
 export type MutateCabinInputs = {
 	name: string;
@@ -21,11 +22,11 @@ type EditCabinFormProps = {
 	onCloseModal?: () => void;
 };
 
-const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
-	console.log(cabin);
+const CreateEditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 	const {
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors },
 	} = useForm<MutateCabinInputs>({
 		defaultValues: cabin ? cabin : {},
@@ -33,6 +34,7 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 
 	const { editCabin, isEditing } = useEditCabin();
 	const { createCabin, isCreating } = useCreateCabin();
+	const isWorking = isEditing || isCreating;
 
 	const onSubmit: SubmitHandler<MutateCabinInputs> = (data) => {
 		if (cabin?.id) {
@@ -49,7 +51,12 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 			<FormRow label='Cabin name' error={errors?.name?.message as string}>
 				<Input
 					type='text'
-					{...register('name', { required: true, maxLength: 30 })}
+					id='name'
+					disabled={isWorking}
+					{...register('name', {
+						required: 'This field is required',
+						maxLength: 30,
+					})}
 				/>
 			</FormRow>
 			<FormRow
@@ -57,7 +64,11 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 				error={errors?.maxCapacity?.message as string}>
 				<Input
 					type='number'
-					{...register('maxCapacity', { required: true })}
+					id='maxCapacity'
+					disabled={isWorking}
+					{...register('maxCapacity', {
+						required: 'This field is required',
+					})}
 				/>
 			</FormRow>
 			<FormRow
@@ -65,7 +76,11 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 				error={errors?.regularPrice?.message as string}>
 				<Input
 					type='number'
-					{...register('regularPrice', { required: true })}
+					id='regularPrice'
+					disabled={isWorking}
+					{...register('regularPrice', {
+						required: 'This field is required',
+					})}
 				/>
 			</FormRow>
 			<FormRow
@@ -73,15 +88,25 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 				error={errors?.discount?.message as string}>
 				<Input
 					type='number'
-					{...register('discount', { required: true, min: 0 })}
+					id='discount'
+					disabled={isWorking}
+					{...register('discount', {
+						required: 'This field is required',
+						validate: (value) =>
+							value <= getValues().regularPrice ||
+							'Discount should be less than regular price',
+					})}
 				/>
 			</FormRow>
 			<FormRow
 				label='Description for Website'
 				error={errors?.description?.message as string}>
-				<Input
-					type='text'
-					{...register('description', { required: true })}
+				<Textarea
+					id='description'
+					disabled={isWorking}
+					{...register('description', {
+						required: 'This field is required',
+					})}
 				/>
 			</FormRow>
 			<FormRow
@@ -89,18 +114,27 @@ const EditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 				error={errors?.image?.message as string}>
 				<FileInput
 					type='file'
+					id='image'
 					accept='image/*'
 					{...register('image')}
 				/>
 			</FormRow>
-			<Button
-				variation='primary'
-				type='submit'
-				disabled={isCreating || isEditing}>
-				{cabin?.id ? 'Update Cabin' : 'Create Cabin'}
-			</Button>
+			<FormRow>
+				<Button
+					variation='primary'
+					type='submit'
+					disabled={isCreating || isEditing}>
+					{cabin?.id ? 'Update Cabin' : 'Create Cabin'}
+				</Button>
+				<Button
+					type='button'
+					variation='secondary'
+					onClick={onCloseModal}>
+					Cancel
+				</Button>
+			</FormRow>
 		</form>
 	);
 };
 
-export default EditCabinForm;
+export default CreateEditCabinForm;

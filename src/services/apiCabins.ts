@@ -56,16 +56,14 @@ export async function createCabin(cabin: Cabin) {
  */
 export async function editCabin(id: string, cabin: MutateCabinInputs) {
 	// check if add new image or not
-	const hasPath = (cabin.image[0] as string)?.startsWith?.(supabaseUrl);
+	const hasPath = (cabin.image as string)?.startsWith?.(supabaseUrl);
 	let imageName = '';
-	let imagePath = cabin.image[0];
+	let imagePath = cabin.image;
 
 	if (!hasPath) {
 		imageName = createFileName(cabin.image[0] as File);
 		imagePath = createFilePath('cabin-images', imageName);
-	}
 
-	if (!hasPath) {
 		const result = await uploadImage(cabin.image[0] as File, imageName);
 
 		if (!(result as { path: string }).path) {

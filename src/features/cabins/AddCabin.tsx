@@ -1,6 +1,6 @@
 import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
-import EditCabinForm from './CreateEditCabinForm';
+import CreateEditCabinForm from './CreateEditCabinForm';
 
 const AddCabin = () => {
 	return (
@@ -10,7 +10,7 @@ const AddCabin = () => {
 					<Button>Add New Cabin</Button>
 				</Modal.Open>
 				<Modal.Window name='cabins-form'>
-					<EditCabinForm />
+					<CreateEditCabinForm />
 				</Modal.Window>
 			</Modal>
 		</div>

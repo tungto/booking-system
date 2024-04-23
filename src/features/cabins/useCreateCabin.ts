@@ -8,7 +8,6 @@ const useCreateCabin = () => {
 	const {
 		data,
 		isPending: isCreating,
-		error,
 		mutate: createCabin,
 	} = useMutation({
 		mutationFn: createCabinApi,
@@ -17,13 +16,12 @@ const useCreateCabin = () => {
 			queryClient.invalidateQueries({ queryKey: ['cabins'] });
 		},
 		onError: () => {
-			toast.error('create toast error!');
+			toast.error('Create Cabin Failed!');
 		},
 	});
 	return {
 		data,
 		isCreating,
-		error,
 		createCabin,
 	};
 };

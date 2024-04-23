@@ -15,7 +15,8 @@ type HookProps = {
  * To handle this issue we listen for capturing phase instead of bubbling phase
  */
 const useOutsideClick = ({ handler, listenCapturing = true }: HookProps) => {
-	const ref = useRef<HTMLDivElement>(null);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const ref = useRef<any>(null);
 
 	useEffect(() => {
 		const handleClick = ({ target }: MouseEvent) => {

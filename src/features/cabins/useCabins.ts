@@ -12,7 +12,6 @@ const useCabins = () => {
 		staleTime: 1000 * 60,
 	});
 
-	console.log(cabins);
 	return { isLoading, cabins, error };
 };
 
