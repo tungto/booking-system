@@ -1,17 +1,17 @@
+import { TCabinRow } from '@/types';
+import {
+	HiDocumentDuplicate,
+	HiMiniPencilSquare,
+	HiMiniTrash,
+} from 'react-icons/hi2';
 import styled from 'styled-components';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import Menus from '../../ui/Menus';
 import Modal from '../../ui/Modal';
 import Table from '../../ui/Table';
 import CreateEditCabinForm from './CreateEditCabinForm';
-import { Cabin } from './type';
 import useCreateCabin from './useCreateCabin';
 import useDeleteCabin from './useDeleteCabin';
-import {
-	HiDocumentDuplicate,
-	HiMiniPencilSquare,
-	HiMiniTrash,
-} from 'react-icons/hi2';
 
 const Img = styled.img`
 	display: block;
@@ -30,7 +30,7 @@ const CabinName = styled.div`
 `;
 
 type CabinRowProps = {
-	cabin: Cabin;
+	cabin: TCabinRow;
 };
 
 const CabinRow = ({ cabin }: CabinRowProps) => {

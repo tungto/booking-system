@@ -2,11 +2,10 @@
  * getCabins
  */
 
-import { MutateCabinInputs } from '../features/cabins/CreateEditCabinForm';
-import { Cabin } from '../features/cabins/type';
+import { TCabinInsert, TCabinUpdate } from '@/types';
 import supabase, { supabaseUrl } from './supabase';
 
-export const getCabins = async (): Promise<Cabin[]> => {
+export const getCabins = async ()  => {
 	const { data, error } = await supabase.from('cabins').select('*');
 
 	if (error) {
@@ -21,8 +20,8 @@ export const getCabins = async (): Promise<Cabin[]> => {
  * Create Cabins
  */
 
-export async function createCabin(cabin: Cabin) {
-	const imageName = createFileName(cabin.image[0] as File);
+export async function createCabin(cabin: TCabinInsert) {
+	const imageName = createFileName(cabin.image?.[0] as unknown as File);
 	const imagePath = createFilePath('cabin-images', imageName);
 
 	// 1. insert cabin
@@ -38,11 +37,11 @@ export async function createCabin(cabin: Cabin) {
 	}
 
 	// 2. upload image
-	const result = await uploadImage(cabin.image[0] as File, imageName);
+	const result = await uploadImage(cabin.image?.[0] as unknown as File, imageName);
 
 	// if image upload failed, then delete inserted cabin
 	if (!(result as { path: string }).path) {
-		await deleteCabin(data.id);
+		await deleteCabin(data.id );
 		throw new Error(
 			'Cabin image could not be uploaded and the cabin was not created'
 		);
@@ -54,17 +53,17 @@ export async function createCabin(cabin: Cabin) {
 /**
  * Edit Cabins
  */
-export async function editCabin(id: string, cabin: MutateCabinInputs) {
+export async function editCabin(  cabin: TCabinUpdate) {
 	// check if add new image or not
 	const hasPath = (cabin.image as string)?.startsWith?.(supabaseUrl);
 	let imageName = '';
 	let imagePath = cabin.image;
 
 	if (!hasPath) {
-		imageName = createFileName(cabin.image[0] as File);
+		imageName = createFileName(cabin.image?.[0] as File);
 		imagePath = createFilePath('cabin-images', imageName);
 
-		const result = await uploadImage(cabin.image[0] as File, imageName);
+		const result = await uploadImage(cabin.image?.[0] as File, imageName);
 
 		if (!(result as { path: string }).path) {
 			throw new Error('Could not upload image');
@@ -74,7 +73,7 @@ export async function editCabin(id: string, cabin: MutateCabinInputs) {
 	const { data, error } = await supabase
 		.from('cabins')
 		.update({ ...cabin, image: imagePath })
-		.eq('id', id)
+		.eq('id', cabin.id as number)
 		.select()
 		.single();
 
@@ -89,7 +88,7 @@ export async function editCabin(id: string, cabin: MutateCabinInputs) {
 /**
  * Delete Cabins
  */
-export async function deleteCabin(id: string) {
+export async function deleteCabin(id: number) {
 	const { error } = await supabase.from('cabins').delete().eq('id', id);
 
 	if (error) {

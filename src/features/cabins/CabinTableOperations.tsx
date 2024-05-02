@@ -14,7 +14,7 @@ export const CabinTableOperations = () => {
 				]}
 			/>
 			<SortBy
-				sortOptions={[
+				options={[
 					{ label: 'Sort Cabins', value: '' },
 					{ label: 'Name (A-Z)', value: 'name-asc' },
 					{ label: 'Name (Z-A)', value: 'name-dsc' },

@@ -5,20 +5,11 @@ import useEditCabin from './useEditCabin';
 import Button from '../../ui/Button';
 import useCreateCabin from './useCreateCabin';
 import FileInput from '../../ui/FileInput';
-import { Cabin } from './type';
 import Textarea from '@/ui/Textarea';
-
-export type MutateCabinInputs = {
-	name: string;
-	maxCapacity: number;
-	regularPrice: number;
-	discount: number;
-	description: string;
-	image: string | [File];
-};
+import { TCabinInsert, TCabinUpdate } from '@/types';
 
 type EditCabinFormProps = {
-	cabin?: Cabin;
+	cabin?: TCabinInsert;
 	onCloseModal?: () => void;
 };
 
@@ -28,19 +19,19 @@ const CreateEditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 		handleSubmit,
 		getValues,
 		formState: { errors },
-	} = useForm<MutateCabinInputs>({
-		defaultValues: cabin ? cabin : {},
+	} = useForm<TCabinInsert>({
+		defaultValues: cabin ? cabin : undefined,
 	});
 
 	const { editCabin, isEditing } = useEditCabin();
 	const { createCabin, isCreating } = useCreateCabin();
 	const isWorking = isEditing || isCreating;
 
-	const onSubmit: SubmitHandler<MutateCabinInputs> = (data) => {
+	const onSubmit: SubmitHandler<TCabinInsert | TCabinUpdate> = (data) => {
 		if (cabin?.id) {
-			editCabin({ newCabinData: data, id: cabin.id });
+			editCabin({ newCabinData: data as TCabinUpdate });
 		} else {
-			createCabin(data);
+			createCabin(data as TCabinInsert);
 		}
 
 		onCloseModal?.();
@@ -93,7 +84,7 @@ const CreateEditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 					{...register('discount', {
 						required: 'This field is required',
 						validate: (value) =>
-							value <= getValues().regularPrice ||
+							(value as number) <= getValues().regularPrice ||
 							'Discount should be less than regular price',
 					})}
 				/>

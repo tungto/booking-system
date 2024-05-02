@@ -46,6 +46,7 @@ const StyledBody = styled.section`
 
 const StyledFooter = styled.footer`
 	margin: 0.4rem 0;
+	padding: 1.2rem;
 `;
 
 const Empty = styled.p`

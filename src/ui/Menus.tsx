@@ -70,16 +70,17 @@ type TPosition = {
 };
 
 interface TMenusContextProps {
-	openId: string;
+	openId: number;
 	close: () => void;
-	open: (id: string) => void;
+	// todo refactor this type
+	open: (id: number) => void;
 	position: TPosition | null;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setPosition: any;
 }
 
 const MenusContext = createContext<TMenusContextProps>({
-	openId: '',
+	openId: -1,
 	close: () => {},
 	open: () => {},
 	position: null,
@@ -90,10 +91,10 @@ type TProps = {
 };
 
 const Menus = ({ children }: TProps) => {
-	const [openId, setOpenId] = useState('');
+	const [openId, setOpenId] = useState(-1);
 	const [position, setPosition] = useState(null);
 
-	const close = () => setOpenId('');
+	const close = () => setOpenId(-1);
 	const open = setOpenId;
 
 	return (
@@ -105,7 +106,7 @@ const Menus = ({ children }: TProps) => {
 };
 
 type ToggleProps = {
-	id: string;
+	id: number;
 };
 
 const Toggle = ({ id }: ToggleProps) => {
@@ -123,7 +124,7 @@ const Toggle = ({ id }: ToggleProps) => {
 			y: rect.y + rect.height + 8,
 		});
 
-		openId === '' || openId !== id ? open(id) : close();
+		openId === null || openId !== id ? open(id) : close();
 	}
 
 	return (
@@ -135,7 +136,7 @@ const Toggle = ({ id }: ToggleProps) => {
 
 type ListProps = {
 	children: React.ReactNode;
-	id: string;
+	id: number;
 };
 
 const List = ({ children, id }: ListProps) => {

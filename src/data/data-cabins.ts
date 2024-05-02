@@ -4,16 +4,6 @@ const imageUrl = `${supabaseUrl}/storage/v1/object/public/cabin-images/`;
 
 export const cabins = [
 	{
-		id: 1,
-		created_at: '2023-12-21T03:08:14.837606+00:00',
-		name: '00213',
-		maxCapacity: 2,
-		regularPrice: 250,
-		discount: 50,
-		description: 'Small deluxe',
-		image: 'https://cdqhdekytbasufwplngr.supabase.co/storage/v1/object/public/cabin-images/0.43055515289901214-dog.jpeg',
-	},
-	{
 		name: '001',
 		maxCapacity: 2,
 		regularPrice: 250,

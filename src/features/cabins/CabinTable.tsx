@@ -2,12 +2,12 @@ import useCabins from './useCabins';
 import Spinner from '../../ui/Spinner';
 import CabinRow from './CabinRow';
 import { useSearchParams } from 'react-router-dom';
-import { Cabin, CabinField, CabinFilterOptions } from './type';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
+import { CabinField, CabinFilterOptions } from '@/types';
 
 const CabinTable = () => {
-	const { isLoading, cabins, error } = useCabins();
+	const { isLoading, cabins = [], error } = useCabins();
 	const [searchParams] = useSearchParams();
 
 	//1. FILTER
@@ -54,7 +54,7 @@ const CabinTable = () => {
 				</Table.Header>
 				<Table.Body
 					data={sortedCabins}
-					render={(cabin: Cabin) => (
+					render={(cabin) => (
 						<CabinRow key={cabin.id} cabin={cabin} />
 					)}
 				/>

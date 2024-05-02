@@ -13,8 +13,17 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { StyleSheetManager } from 'styled-components';
 import emotionIsPropValid from '@emotion/is-prop-valid';
+import CheckIn from './pages/CheckIn';
+import Booking from './pages/Booking';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			// staleTime: 20 * 1000,
+			staleTime: 0,
+		},
+	},
+});
 
 function App() {
 	return (
@@ -37,6 +46,14 @@ function App() {
 									element={<Dashboard />}
 								/>
 								<Route path='bookings' element={<Bookings />} />
+								<Route
+									path='bookings/:bookingId'
+									element={<Booking />}
+								/>
+								<Route
+									path='checkin/:bookingId'
+									element={<CheckIn />}
+								/>
 								<Route path='cabins' element={<Cabins />} />
 								<Route path='login' element={<Login />} />
 								<Route path='user' element={<User />} />

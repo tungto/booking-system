@@ -6,10 +6,10 @@ type SortOption = {
 	value: string;
 };
 type SortProps = {
-	sortOptions: SortOption[];
+	options: SortOption[];
 };
 
-const SortBy = ({ sortOptions }: SortProps) => {
+const SortBy = ({ options }: SortProps) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const sortBy = searchParams.get('sortBy') || '';
 
@@ -25,7 +25,7 @@ const SortBy = ({ sortOptions }: SortProps) => {
 			id='sortBy'
 			onChange={handleSort}
 			value={sortBy}
-			options={sortOptions}
+			options={options}
 		/>
 	);
 };
