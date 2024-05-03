@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Button from './Button';
+import useLogout from '@/features/authentication/useLogout';
 
 const StyledHeader = styled.header`
 	background-color: var(--color-grey-0);
@@ -12,7 +14,19 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
-	return <StyledHeader>Header</StyledHeader>;
+	const { isPending, logoutPerform } = useLogout();
+
+	function handleLogout() {
+		logoutPerform();
+	}
+
+	return (
+		<StyledHeader>
+			<Button onClick={handleLogout} disabled={isPending}>
+				Logout
+			</Button>
+		</StyledHeader>
+	);
 };
 
 export default Header;

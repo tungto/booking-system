@@ -9,7 +9,7 @@ const useCabins = () => {
 	} = useQuery({
 		queryKey: ['cabins'],
 		queryFn: getCabins,
-		staleTime: 1000 * 60,
+		// staleTime: 1000 * 60,
 	});
 
 	return { isLoading, cabins, error };

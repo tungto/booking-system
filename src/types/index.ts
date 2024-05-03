@@ -58,3 +58,15 @@ export type Result<T> = {
 	data: T[];
 	count: number;
 };
+
+export type Login = {
+	email: string;
+	password: string;
+};
+
+export type SignUp = {
+	fullName: string;
+	email: string;
+	password: string;
+	repeatPassword: string;
+};

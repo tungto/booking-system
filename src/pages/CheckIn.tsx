@@ -1,4 +1,4 @@
-import CheckInBooking from '@/features/check-int-out/CheckInBooking';
+import CheckInBooking from '@/features/check-in-out/CheckInBooking';
 
 const CheckIn = () => {
 	return (

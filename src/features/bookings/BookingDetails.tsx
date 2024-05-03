@@ -14,7 +14,7 @@ import Spinner from '@/ui/Spinner';
 import Tag from '@/ui/Tag';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import useCheckout from '../check-int-out/useCheckout';
+import useCheckout from '../check-in-out/useCheckout';
 
 const Buttons = styled.div`
 	display: flex;
@@ -71,15 +71,17 @@ const BookingDetails = () => {
 
 				<Modal>
 					<Modal.Open opens='delete-booking'>
-						<Button onClick={moveBack} variation='danger'>
-							Delete Booking
-						</Button>
+						<Button variation='danger'>Delete Booking</Button>
 					</Modal.Open>
 					<Modal.Window name='delete-booking'>
 						<ConfirmDelete
 							disabled={isDeleting}
 							resourceName='booking'
-							onConfirm={() => deleteBooking(booking!.id)}
+							onConfirm={() => {
+								deleteBooking(booking!.id, {
+									onSettled: () => moveBack(),
+								});
+							}}
 						/>
 					</Modal.Window>
 				</Modal>

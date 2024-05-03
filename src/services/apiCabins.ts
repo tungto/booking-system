@@ -5,7 +5,7 @@
 import { TCabinInsert, TCabinUpdate } from '@/types';
 import supabase, { supabaseUrl } from './supabase';
 
-export const getCabins = async ()  => {
+export const getCabins = async () => {
 	const { data, error } = await supabase.from('cabins').select('*');
 
 	if (error) {
@@ -21,7 +21,9 @@ export const getCabins = async ()  => {
  */
 
 export async function createCabin(cabin: TCabinInsert) {
-	const imageName = createFileName(cabin.image?.[0] as unknown as File);
+	const imageName = cabin.image?.[0]
+		? createFileName(cabin.image[0] as unknown as File)
+		: '';
 	const imagePath = createFilePath('cabin-images', imageName);
 
 	// 1. insert cabin
@@ -37,11 +39,14 @@ export async function createCabin(cabin: TCabinInsert) {
 	}
 
 	// 2. upload image
-	const result = await uploadImage(cabin.image?.[0] as unknown as File, imageName);
+	const result = await uploadImage(
+		cabin.image?.[0] as unknown as File,
+		imageName
+	);
 
 	// if image upload failed, then delete inserted cabin
 	if (!(result as { path: string }).path) {
-		await deleteCabin(data.id );
+		await deleteCabin(data.id);
 		throw new Error(
 			'Cabin image could not be uploaded and the cabin was not created'
 		);
@@ -53,14 +58,16 @@ export async function createCabin(cabin: TCabinInsert) {
 /**
  * Edit Cabins
  */
-export async function editCabin(  cabin: TCabinUpdate) {
+export async function editCabin(cabin: TCabinUpdate) {
 	// check if add new image or not
 	const hasPath = (cabin.image as string)?.startsWith?.(supabaseUrl);
 	let imageName = '';
 	let imagePath = cabin.image;
 
 	if (!hasPath) {
-		imageName = createFileName(cabin.image?.[0] as File);
+		imageName = cabin.image?.[0]
+			? createFileName(cabin.image[0] as File)
+			: '';
 		imagePath = createFilePath('cabin-images', imageName);
 
 		const result = await uploadImage(cabin.image?.[0] as File, imageName);

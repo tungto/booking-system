@@ -15,6 +15,7 @@ import { StyleSheetManager } from 'styled-components';
 import emotionIsPropValid from '@emotion/is-prop-valid';
 import CheckIn from './pages/CheckIn';
 import Booking from './pages/Booking';
+import ProtectedRoute from './features/authentication/ProtectedRoute';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -34,7 +35,12 @@ function App() {
 					<GlobalStyles />
 					<BrowserRouter>
 						<Routes>
-							<Route element={<AppLayout />}>
+							<Route
+								element={
+									<ProtectedRoute>
+										<AppLayout />
+									</ProtectedRoute>
+								}>
 								<Route
 									index
 									element={
@@ -55,11 +61,13 @@ function App() {
 									element={<CheckIn />}
 								/>
 								<Route path='cabins' element={<Cabins />} />
-								<Route path='login' element={<Login />} />
+
 								<Route path='user' element={<User />} />
 								<Route path='settings' element={<Settings />} />
-								<Route path='*' element={<PageNotFound />} />
 							</Route>
+
+							<Route path='login' element={<Login />} />
+							<Route path='*' element={<PageNotFound />} />
 						</Routes>
 					</BrowserRouter>
 
