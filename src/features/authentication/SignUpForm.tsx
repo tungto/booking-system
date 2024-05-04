@@ -5,6 +5,7 @@ import Input from '@/ui/Input';
 import Spinner from '@/ui/Spinner';
 import { useForm } from 'react-hook-form';
 import useSignup from './useSignup';
+import Form from '@/ui/Form';
 
 const SignUpForm = () => {
 	const {
@@ -23,8 +24,12 @@ const SignUpForm = () => {
 		});
 	}
 
+	function handleCancel() {
+		reset();
+	}
+
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<Form type='regular' onSubmit={handleSubmit(onSubmit)}>
 			<FormRow error={errors.fullName?.message} label='Full name'>
 				<Input
 					disabled={isPending}
@@ -82,11 +87,15 @@ const SignUpForm = () => {
 				<Button type='submit' variation='primary' disabled={isPending}>
 					{isPending ? <Spinner /> : 'Create User'}
 				</Button>
-				<Button type='reset' disabled={isPending} variation='secondary'>
+				<Button
+					type='reset'
+					disabled={isPending}
+					variation='secondary'
+					onClick={handleCancel}>
 					Cancel
 				</Button>
 			</FormRow>
-		</form>
+		</Form>
 	);
 };
 

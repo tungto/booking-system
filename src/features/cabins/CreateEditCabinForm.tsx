@@ -7,6 +7,7 @@ import useCreateCabin from './useCreateCabin';
 import FileInput from '../../ui/FileInput';
 import Textarea from '@/ui/Textarea';
 import { TCabinInsert, TCabinUpdate } from '@/types';
+import Form from '@/ui/Form';
 
 type EditCabinFormProps = {
 	cabin?: TCabinInsert;
@@ -38,7 +39,7 @@ const CreateEditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<Form type='regular' onSubmit={handleSubmit(onSubmit)}>
 			<FormRow label='Cabin name' error={errors?.name?.message as string}>
 				<Input
 					type='text'
@@ -124,7 +125,7 @@ const CreateEditCabinForm = ({ cabin, onCloseModal }: EditCabinFormProps) => {
 					Cancel
 				</Button>
 			</FormRow>
-		</form>
+		</Form>
 	);
 };
 

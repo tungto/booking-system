@@ -27,7 +27,7 @@ const LoginForm = () => {
 		reset,
 		formState: { errors },
 	} = useForm<LoginForm>({
-		defaultValues: { email: 'example@gmail.com', password: '1234' },
+		defaultValues: { email: 'example@gmail.com', password: '123456' },
 	});
 
 	const { performLogin, isPending } = useLogin();

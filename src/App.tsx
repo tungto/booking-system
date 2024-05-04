@@ -16,6 +16,8 @@ import emotionIsPropValid from '@emotion/is-prop-valid';
 import CheckIn from './pages/CheckIn';
 import Booking from './pages/Booking';
 import ProtectedRoute from './features/authentication/ProtectedRoute';
+import Account from './pages/Account';
+import { DarkModeProvider } from './context/DarkModeContext';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -28,7 +30,7 @@ const queryClient = new QueryClient({
 
 function App() {
 	return (
-		<>
+		<DarkModeProvider>
 			<QueryClientProvider client={queryClient}>
 				<StyleSheetManager shouldForwardProp={shouldForwardProp}>
 					<ReactQueryDevtools initialIsOpen={false} />
@@ -63,6 +65,7 @@ function App() {
 								<Route path='cabins' element={<Cabins />} />
 
 								<Route path='user' element={<User />} />
+								<Route path='account' element={<Account />} />
 								<Route path='settings' element={<Settings />} />
 							</Route>
 
@@ -74,7 +77,7 @@ function App() {
 					<Toaster />
 				</StyleSheetManager>
 			</QueryClientProvider>
-		</>
+		</DarkModeProvider>
 	);
 }
 

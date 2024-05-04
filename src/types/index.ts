@@ -70,3 +70,10 @@ export type SignUp = {
 	password: string;
 	repeatPassword: string;
 };
+
+export type UpdateUserData = {
+	email: string;
+	fullName: string;
+	avatar: string;
+	password: string;
+};

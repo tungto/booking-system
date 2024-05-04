@@ -1,6 +1,6 @@
+import UserAvatar from '@/features/authentication/UserAvatar';
 import styled from 'styled-components';
-import Button from './Button';
-import useLogout from '@/features/authentication/useLogout';
+import HeaderMenu from './HeaderMenu';
 
 const StyledHeader = styled.header`
 	background-color: var(--color-grey-0);
@@ -14,17 +14,10 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
-	const { isPending, logoutPerform } = useLogout();
-
-	function handleLogout() {
-		logoutPerform();
-	}
-
 	return (
 		<StyledHeader>
-			<Button onClick={handleLogout} disabled={isPending}>
-				Logout
-			</Button>
+			<UserAvatar />
+			<HeaderMenu />
 		</StyledHeader>
 	);
 };

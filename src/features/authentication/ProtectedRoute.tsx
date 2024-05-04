@@ -19,8 +19,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 	const { isLoading, isAuthenticated, fetchStatus } = useUser();
 	const navigate = useNavigate();
 
-	console.log(fetchStatus);
-
 	useEffect(
 		function () {
 			//3. if user un-authenticated navigate to login
