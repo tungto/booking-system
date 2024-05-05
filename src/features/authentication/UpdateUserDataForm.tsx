@@ -16,8 +16,6 @@ const UpdateUserDataForm = () => {
 		user_metadata: { fullName },
 	} = user as User;
 
-	console.log('user', user);
-
 	const {
 		handleSubmit,
 		formState: { errors, dirtyFields },

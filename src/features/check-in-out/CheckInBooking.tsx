@@ -124,7 +124,9 @@ const CheckInBooking = () => {
 					disabled={!confirmPaid}>
 					Check in booking #873
 				</Button>
-				<Button variation='secondary'>Cancel</Button>
+				<Button variation='secondary' onClick={moveBack}>
+					Back
+				</Button>
 			</Buttons>
 		</>
 	);

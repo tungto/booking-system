@@ -1,15 +1,16 @@
 import { BookingData, TBookingUpdate, Result } from '@/types';
 import { PAGE_SIZE } from '@/utils/constants';
 import supabase from './supabase';
+import { getToday } from '@/utils/helpers';
 
 type GetAllBookingsParams = {
-	filter: {
+	filter?: {
 		method?: string;
 		field: string;
-		value: string;
-	} | null;
-	sortBy: { field: string; direction: string };
-	page: number;
+		value: string | number;
+	};
+	sortBy?: { field: string; direction: string };
+	page?: number;
 };
 
 /**
@@ -72,13 +73,10 @@ export const getBooking = async (id: string) => {
 		throw new Error('Can not get booking');
 	}
 
-	console.log(booking);
-
 	return booking;
 };
 
 export const updateBooking = async (id: number, newBooking: TBookingUpdate) => {
-	console.log(newBooking);
 	const { data: booking, error } = await supabase
 		.from('bookings')
 		.update({ ...newBooking })
@@ -91,8 +89,6 @@ export const updateBooking = async (id: number, newBooking: TBookingUpdate) => {
 		throw new Error('Can not update booking');
 	}
 
-	console.log(booking);
-
 	return booking;
 };
 
@@ -103,4 +99,69 @@ export const deleteBooking = async (id: number) => {
 		console.log('DELETE BOOKING ERROR', error);
 		throw new Error('Can not delete booking');
 	}
+};
+
+/**
+ * from query date to today
+ * @param queryDate
+ * @returns
+ */
+export const getBookingsAfterDate = async (queryDate: string) => {
+	const { data: bookings, error } = await supabase
+		.from('bookings')
+		.select('created_at, totalPrice, extrasPrice')
+		// Filters
+		.gte('created_at', queryDate)
+		.lte('created_at', getToday({ end: true }));
+
+	if (error) {
+		console.log('GET BOOKINGS AFTER DATE ERROR', error);
+		throw new Error('Can not delete bookings');
+	}
+
+	console.log('bookings', bookings);
+
+	return bookings;
+};
+
+/**
+ * All stay that were created after the given date
+ * @param queryDate
+ * @returns
+ */
+export const getStayAfterDate = async (queryDate: string) => {
+	const { data: bookings, error } = await supabase
+		.from('bookings')
+		.select('*, guests(fullName)')
+		// Filters
+		.gte('startDate', queryDate)
+		.lte('startDate', getToday());
+
+	if (error) {
+		console.log('GET BOOKINGS AFTER DATE ERROR', error);
+		throw new Error('Can not delete bookings');
+	}
+
+	console.log('bookings', bookings);
+
+	return bookings;
+};
+
+// get bookings will check in or check out today
+export const getTodayBookings = async () => {
+	const { data: bookings, error } = await supabase
+		.from('bookings')
+		.select('*, guests(fullName, nationality, countryFlag)')
+		// Filters
+		.or(
+			`and(status.eq.unconfirmed, startDate.eq.${getToday()}), and(status.eq.checked-in, startDate.eq.${getToday()})`
+		)
+		.order('created_at');
+
+	if (error) {
+		console.log('GET TODAY BOOKINGS  ERROR', error);
+		throw new Error('Can not today bookings');
+	}
+
+	return bookings;
 };

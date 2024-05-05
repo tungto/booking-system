@@ -12,7 +12,7 @@ const useBookings = () => {
 	const filterValue = searchParams.get('status') || 'all';
 	const filter =
 		!filterValue || filterValue === 'all'
-			? null
+			? undefined
 			: { field: 'status', value: filterValue };
 
 	//  SORT

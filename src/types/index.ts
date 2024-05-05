@@ -1,4 +1,4 @@
-import { Database, Tables } from '@/types/schema';
+import { Database } from '@/types/schema';
 
 export enum CabinsSortOptions {
 	regularPriceASC = 'regularPrice-asc',
@@ -32,7 +32,7 @@ export type TBookingRow = Booking['Row'];
 export type TBookingInsert = Booking['Insert'];
 export type TBookingUpdate = Booking['Update'];
 
-export type Setting = Tables<'settings'>;
+export type Setting = Database['public']['Tables']['settings'];
 
 export interface Guest {
 	fullName: string;
@@ -49,7 +49,7 @@ export enum BookingStatus {
 }
 
 // !todo refactor
-export type BookingData = Booking['Row'] & {
+export type BookingData = TBookingRow & {
 	guests: Guest;
 	cabins: Pick<TCabinRow, 'name'>;
 };
@@ -77,3 +77,14 @@ export type UpdateUserData = {
 	avatar: string;
 	password: string;
 };
+
+export type Activity = TBookingRow & {
+	guests: Omit<Guest, 'nationalID' | 'nationality' | 'email'>;
+};
+
+export type Stays = {
+	stays: (TBookingRow & { guests: { fullName: string } })[];
+};
+
+export type SettingRow = Setting['Row'];
+export type SettingRowUpdate = Setting['Update'];

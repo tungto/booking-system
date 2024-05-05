@@ -14,7 +14,7 @@ import Spinner from '@/ui/Spinner';
 import Tag from '@/ui/Tag';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import useCheckout from '../check-in-out/useCheckout';
+import CheckoutButton from '../check-in-out/CheckoutButton';
 
 const Buttons = styled.div`
 	display: flex;
@@ -29,7 +29,6 @@ const HeadingRow = styled(Row)`
 
 const BookingDetails = () => {
 	const { booking, isLoading, error } = useBooking();
-	const { isCheckingOut, checkout } = useCheckout();
 	const { status } = booking || {};
 
 	const moveBack = useMoveBack();
@@ -61,12 +60,9 @@ const BookingDetails = () => {
 				)}
 
 				{status === BookingStatus.checkedIn && (
-					<Button
-						variation='primary'
-						onClick={() => checkout(booking?.id as number)}
-						disabled={isCheckingOut}>
+					<CheckoutButton size='medium' id={booking?.id as number}>
 						Check out booking #873
-					</Button>
+					</CheckoutButton>
 				)}
 
 				<Modal>

@@ -15,7 +15,7 @@ export type Database = {
           cabinPrice: number | null
           created_at: string
           endDate: string
-          extrasPrice: number | null
+          extrasPrice: number
           guestId: number
           hasBreakfast: boolean
           id: number
@@ -32,7 +32,7 @@ export type Database = {
           cabinPrice?: number | null
           created_at?: string
           endDate: string
-          extrasPrice?: number | null
+          extrasPrice?: number
           guestId: number
           hasBreakfast?: boolean
           id?: number
@@ -49,7 +49,7 @@ export type Database = {
           cabinPrice?: number | null
           created_at?: string
           endDate?: string
-          extrasPrice?: number | null
+          extrasPrice?: number
           guestId?: number
           hasBreakfast?: boolean
           id?: number

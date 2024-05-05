@@ -14,8 +14,6 @@ const useBooking = () => {
 		queryFn: () => getBooking(bookingId || ''),
 	});
 
-	console.log(booking);
-
 	return { isLoading, booking, error };
 };
 

@@ -24,8 +24,6 @@ export const DarkModeProvider = ({
 		key: 'isDarkMode',
 	});
 
-	console.log(isDarkMode);
-
 	//2. toggle dark mode
 	useEffect(() => {
 		if (isDarkMode) {

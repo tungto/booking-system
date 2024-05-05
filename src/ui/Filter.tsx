@@ -9,6 +9,7 @@ const StyledFilterComponent = styled.div`
 	display: flex;
 	justify-content: space-between;
 	border: 1px solid var(--color-grey-100);
+	background-color: var(--color-grey-0);
 `;
 
 const FilterButton = styled.button<FilterButtonProps>`
@@ -16,6 +17,7 @@ const FilterButton = styled.button<FilterButtonProps>`
 	font-size: 1.4rem;
 	border: none;
 	border-radius: var(--border-radius-sm);
+	background-color: var(--color-grey-0);
 	font-weight: 500;
 	transition: all 0.3s;
 	&:hover:not(:disabled) {
