@@ -31,8 +31,9 @@ const CheckInBooking = () => {
 	const moveBack = useMoveBack();
 	const [confirmPaid, setConfirmPaid] = useState(false);
 	const [addBreakfast, setAddBreakfast] = useState(false);
-	const { booking = {}, isLoading, error } = useBooking();
-	const { checkIn, error: updateError, isCheckingIn } = useCheckIn();
+	const { booking = {}, isLoading } = useBooking();
+	const { checkIn, isCheckingIn } = useCheckIn();
+	const { settings } = useSettings();
 
 	const {
 		id: bookingId,
@@ -42,10 +43,10 @@ const CheckInBooking = () => {
 		guests,
 	} = booking as BookingData;
 
-	const { settings } = useSettings();
-
 	const optionalBreakfastPrice =
 		(settings?.breakfastPrice as number) * numNights!;
+
+	if (isLoading || isCheckingIn) return <Spinner />;
 
 	// update booking status, totalPrice and revalidate booking cache
 	function handleCheckIn() {
@@ -74,10 +75,6 @@ const CheckInBooking = () => {
 	const finalTotalPrice = addBreakfast
 		? totalPrice + optionalBreakfastPrice * numNights
 		: totalPrice;
-
-	if (isLoading || isCheckingIn) return <Spinner />;
-
-	if (error || updateError) return <span>error</span>;
 
 	return (
 		<>
